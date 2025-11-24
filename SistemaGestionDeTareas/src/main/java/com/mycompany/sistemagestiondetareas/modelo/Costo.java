@@ -108,4 +108,8 @@ public class Costo {
     public void setIdUsuarioRegistro(int idUsuarioRegistro) {
         this.idUsuarioRegistro = idUsuarioRegistro;
     }
+
+    public Object getTipoReferencia() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 } 
