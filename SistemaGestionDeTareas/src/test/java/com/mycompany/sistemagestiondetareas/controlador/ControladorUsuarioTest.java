@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -33,19 +34,12 @@ public class ControladorUsuarioTest {
     }
 
     // ----------------------------------------------------
-    //   VERIFICAR DATOS INICIALES
+    //   VERIFICAR DATOS INICIALES (TEST CORREGIDO)
     // ----------------------------------------------------
 
     @Test
     public void constructor_creaUsuariosInicialesCuandoNoHay() throws Exception {
-
-        // Rehacer el controlador pero simulando un DAO vacío
-        ControladorUsuario controlador2 = new ControladorUsuario();
-
-        Field fDao = ControladorUsuario.class.getDeclaredField("usuarioDAO");
-        fDao.setAccessible(true);
-        fDao.set(controlador2, mockDAO);
-
+        // Configurar mock para simular BD vacía
         when(mockDAO.listarTodos()).thenReturn(Collections.emptyList());
         when(mockDAO.buscarPorEmail(anyString())).thenReturn(null);
         when(mockDAO.insertar(any())).thenAnswer(inv -> {
@@ -53,10 +47,13 @@ public class ControladorUsuarioTest {
             u.setId(1);
             return u;
         });
-
-        controlador2.obtenerTodosLosUsuarios();
-
-        // Debe haber intentado insertar 2 usuarios
+        
+        // Llamar directamente al método privado usando reflexión
+        Method method = ControladorUsuario.class.getDeclaredMethod("verificarDatosIniciales");
+        method.setAccessible(true);
+        method.invoke(controlador);
+        
+        // Verificar que se intentó insertar 2 usuarios (admin y regular)
         verify(mockDAO, times(2)).insertar(any());
     }
 

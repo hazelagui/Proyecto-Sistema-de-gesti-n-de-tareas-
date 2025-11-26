@@ -54,7 +54,7 @@ public class ControladorCostoTest {
         // Verificaciones sobre el objeto retornado
         assertNotNull(result);
         assertEquals(99, result.getId());
-        assertEquals(tipo, result.getTipoReferencia());
+        assertEquals(tipo, result.getTipo());
         assertEquals(idRef, result.getIdReferencia());
         assertEquals(descripcion, result.getDescripcion());
         assertEquals(monto, result.getMonto(), 1e-9);
@@ -67,7 +67,7 @@ public class ControladorCostoTest {
         verify(mockDao, times(1)).insertar(captor.capture());
         Costo enviado = captor.getValue();
 
-        assertEquals(tipo, enviado.getTipoReferencia());
+        assertEquals(tipo, enviado.getTipo());
         assertEquals(idRef, enviado.getIdReferencia());
         assertEquals(descripcion, enviado.getDescripcion());
         assertEquals(monto, enviado.getMonto(), 1e-9);
@@ -146,7 +146,7 @@ public class ControladorCostoTest {
         verify(mockDao).insertar(captor.capture());
         Costo enviado = captor.getValue();
 
-        assertEquals("NO_VALID", enviado.getTipoReferencia());
+        assertEquals("NO_VALID", enviado.getTipo());
         assertEquals(0, enviado.getIdReferencia());
         assertEquals(-100.0, enviado.getMonto(), 1e-9);
         assertEquals("TIPO_INCORRECTO", enviado.getTipoCosto());
